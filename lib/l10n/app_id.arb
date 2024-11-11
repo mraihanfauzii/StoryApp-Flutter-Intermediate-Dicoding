@@ -1,0 +1,20 @@
+{
+  "@@locale": "id",
+  "login": "Masuk",
+  "register": "Daftar",
+  "email": "Email",
+  "password": "Kata Sandi",
+  "passwordConfirmation": "Konfirmasi Kata Sandi",
+  "name": "Nama",
+  "stories": "Cerita",
+  "noStories": "Tidak ada cerita",
+  "addStory": "Tambah Cerita",
+  "description": "Deskripsi",
+  "chooseImage": "Pilih Gambar",
+  "submit": "Kirim",
+  "home": "Beranda",
+  "settings": "Pengaturan",
+  "language": "Bahasa",
+  "darkMode": "Mode Gelap",
+  "logout": "Keluar"
+}

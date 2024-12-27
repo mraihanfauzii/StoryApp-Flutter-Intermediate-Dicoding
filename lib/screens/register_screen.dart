@@ -38,59 +38,58 @@ class _RegisterScreenState extends State<RegisterScreen> {
         body: _isLoading
             ? const Center(child: CircularProgressIndicator())
             : Padding(
-              padding: const EdgeInsets.all(16),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  children: [
-                    CustomTextField(
-                      label: localizations.name,
-                      onSaved: (value) => _name = value!,
-                      validator: Validators.requiredValidator,
-                    ),
-                    CustomTextField(
-                      label: localizations.email,
-                      onSaved: (value) => _email = value!,
-                      validator: Validators.emailValidator,
-                    ),
-                    CustomTextField(
-                      label: localizations.password,
-                      controller: _passwordController,
-                      onSaved: (value) => _password = value!,
-                      validator: Validators.passwordValidator,
-                      obscureText: true,
-                    ),
-                    CustomTextField(
-                        label: localizations.passwordConfirmation,
-                        onSaved: (value) => _passwordConfirmation = value!,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Password confirmation is required';
-                          }
-                          if (value != _passwordController.text) {
-                            return 'Passwords do not match';
-                          }
-                          return null;
-                        },
-                      obscureText: true,
-                    ),
-                    const SizedBox(height: 20),
-                    ElevatedButton(
-                      onPressed: () => _submit(authProvider),
-                      child: Text(localizations.register),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        final routerDelegate = Router.of(context).routerDelegate as MyRouterDelegate;
-                        routerDelegate.login();
-                      },
-                      child: Text(localizations.login),
-                    ),
-                ],
-              )
-          ),
-        )
-    );
+                padding: const EdgeInsets.all(16),
+                child: Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        CustomTextField(
+                          label: localizations.name,
+                          onSaved: (value) => _name = value!,
+                          validator: Validators.requiredValidator,
+                        ),
+                        CustomTextField(
+                          label: localizations.email,
+                          onSaved: (value) => _email = value!,
+                          validator: Validators.emailValidator,
+                        ),
+                        CustomTextField(
+                          label: localizations.password,
+                          controller: _passwordController,
+                          onSaved: (value) => _password = value!,
+                          validator: Validators.passwordValidator,
+                          obscureText: true,
+                        ),
+                        CustomTextField(
+                          label: localizations.passwordConfirmation,
+                          onSaved: (value) => _passwordConfirmation = value!,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Password confirmation is required';
+                            }
+                            if (value != _passwordController.text) {
+                              return 'Passwords do not match';
+                            }
+                            return null;
+                          },
+                          obscureText: true,
+                        ),
+                        const SizedBox(height: 20),
+                        ElevatedButton(
+                          onPressed: () => _submit(authProvider),
+                          child: Text(localizations.register),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            final routerDelegate = Router.of(context)
+                                .routerDelegate as MyRouterDelegate;
+                            routerDelegate.login();
+                          },
+                          child: Text(localizations.login),
+                        ),
+                      ],
+                    )),
+              ));
   }
 
   void _submit(AuthProvider authProvider) async {
@@ -100,9 +99,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
       try {
         await authProvider.register(_name, _email, _password);
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Registration successful, please login')),
+          const SnackBar(
+              content: Text('Registration successful, please login')),
         );
-        final routerDelegate = Router.of(context).routerDelegate as MyRouterDelegate;
+        final routerDelegate =
+            Router.of(context).routerDelegate as MyRouterDelegate;
         routerDelegate.showRegisterPage = false;
         routerDelegate.notifyListeners();
       } catch (e) {

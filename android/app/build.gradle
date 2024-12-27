@@ -26,8 +26,26 @@ apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
+    namespace "com.example.dicoding_flutter_intermediate"
     compileSdkVersion flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
+
+    buildFeatures {
+        buildConfig = true
+    }
+    flavorDimensions "version"
+    productFlavors {
+        free {
+            dimension "version"
+            versionNameSuffix "-free"
+            buildConfigField "boolean", "IS_PAID_VERSION", "false"
+        }
+        paid {
+            dimension "version"
+            versionNameSuffix "-paid"
+            buildConfigField "boolean", "IS_PAID_VERSION", "true"
+        }
+    }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8

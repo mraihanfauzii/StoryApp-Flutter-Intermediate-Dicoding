@@ -1,4 +1,6 @@
+import 'package:dicoding_flutter_intermediate/screens/select_location_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../models/route_path.dart';
 import '../providers/auth_provider.dart';
 import '../screens/add_story_screen.dart';
@@ -10,7 +12,6 @@ import '../screens/story_detail_screen.dart';
 class MyRouterDelegate extends RouterDelegate<MyRoutePath>
     with ChangeNotifier, PopNavigatorRouterDelegateMixin<MyRoutePath> {
   @override
-
   final GlobalKey<NavigatorState> navigatorKey;
   final AuthProvider authProvider;
 
@@ -18,8 +19,13 @@ class MyRouterDelegate extends RouterDelegate<MyRoutePath>
   bool show404 = false;
   bool showAddStory = false;
   bool showRegisterPage = false;
+  bool showSelectLocationPage = false;
 
-  MyRouterDelegate(this.authProvider) : navigatorKey = GlobalKey<NavigatorState>(){
+  LatLng? selectedLocation;
+  String? selectedAddress;
+
+  MyRouterDelegate(this.authProvider)
+      : navigatorKey = GlobalKey<NavigatorState>() {
     authProvider.addListener(notifyListeners);
   }
 
@@ -32,7 +38,11 @@ class MyRouterDelegate extends RouterDelegate<MyRoutePath>
     } else if (!authProvider.isLoggedIn) {
       return MyRoutePath.login();
     } else if (showAddStory) {
-      return MyRoutePath.addStory();
+      if (showSelectLocationPage) {
+        return MyRoutePath.selectLocation();
+      } else {
+        return MyRoutePath.addStory();
+      }
     } else if (selectedStoryId != null) {
       return MyRoutePath.storyDetail(selectedStoryId!);
     } else {
@@ -47,9 +57,7 @@ class MyRouterDelegate extends RouterDelegate<MyRoutePath>
     if (authProvider.isLoading) {
       pages.add(
         const MaterialPage(
-          child: Scaffold(
-            body: Center(child: CircularProgressIndicator())
-          ),
+          child: Scaffold(body: Center(child: CircularProgressIndicator())),
         ),
       );
     } else if (!authProvider.isLoggedIn) {
@@ -63,30 +71,34 @@ class MyRouterDelegate extends RouterDelegate<MyRoutePath>
 
     if (showAddStory) {
       pages.add(
-        const MaterialPage(
-          key: ValueKey('AddStoryPage'),
-          child: AddStoryScreen()
-        ),
+        MaterialPage(
+            key: const ValueKey('AddStoryPage'),
+            child: AddStoryScreen(key: AddStoryScreen.globalKey)),
       );
+      if (showSelectLocationPage) {
+        pages.add(
+          const MaterialPage(
+            key: ValueKey('SelectLocationPage'),
+            child: SelectLocationScreen(),
+          ),
+        );
+      }
     }
 
     if (selectedStoryId != null) {
       pages.add(
         MaterialPage(
             key: const ValueKey('StoryDetailPage'),
-            child: StoryDetailScreen(storyId: selectedStoryId!)
-        ),
+            child: StoryDetailScreen(storyId: selectedStoryId!)),
       );
     }
 
     if (show404) {
       pages.add(
         const MaterialPage(
-            child: Scaffold(
-              body: Center(
-                child: Text('Page not found')
-              ),
-            ),
+          child: Scaffold(
+            body: Center(child: Text('Page not found')),
+          ),
         ),
       );
     }
@@ -98,9 +110,20 @@ class MyRouterDelegate extends RouterDelegate<MyRoutePath>
         if (!route.didPop(result)) {
           return false;
         }
+
         if (route.settings is MaterialPage) {
           final page = route.settings as MaterialPage;
-          if (page.child is AddStoryScreen) {
+          if (page.child is SelectLocationScreen) {
+            showSelectLocationPage = false;
+            if (result != null && result is Map) {
+              selectedLocation = result['location'];
+              final address = result['address'];
+              final addStoryScreenState = AddStoryScreen.globalKey.currentState;
+              if (addStoryScreenState != null && selectedLocation != null) {
+                addStoryScreenState.setLocation(selectedLocation!, address);
+              }
+            }
+          } else if (page.child is AddStoryScreen) {
             showAddStory = false;
           } else if (page.child is StoryDetailScreen) {
             selectedStoryId = null;
@@ -134,6 +157,17 @@ class MyRouterDelegate extends RouterDelegate<MyRoutePath>
     show404 = false;
   }
 
+  void setSelectedLocation(LatLng? location, String address) {
+    selectedLocation = location;
+    selectedAddress = address;
+    final addStoryScreenState = AddStoryScreen.globalKey.currentState;
+    if (addStoryScreenState != null && selectedLocation != null) {
+      addStoryScreenState.setLocation(selectedLocation!, selectedAddress!);
+    }
+    showSelectLocationPage = false;
+    notifyListeners();
+  }
+
   void showRegister() {
     showRegisterPage = true;
     notifyListeners();
@@ -156,6 +190,11 @@ class MyRouterDelegate extends RouterDelegate<MyRoutePath>
 
   void showAddStoryPage() {
     showAddStory = true;
+    notifyListeners();
+  }
+
+  void showSelectLocation() {
+    showSelectLocationPage = true;
     notifyListeners();
   }
 }

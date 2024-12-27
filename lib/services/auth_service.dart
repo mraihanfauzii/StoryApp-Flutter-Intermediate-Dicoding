@@ -55,7 +55,8 @@ class AuthService {
 
   Future<bool> getThemePreference() async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getBool('isDarkMode') ?? false; // Default ke false jika tidak ada
+    return prefs.getBool('isDarkMode') ??
+        false; // Default ke false jika tidak ada
   }
 
   Future<void> saveLanguagePreference(String languageCode) async {
@@ -65,7 +66,8 @@ class AuthService {
 
   Future<String> getLanguagePreference() async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getString('languageCode') ?? 'en'; // Default ke 'en' jika tidak ada
+    return prefs.getString('languageCode') ??
+        'en'; // Default ke 'en' jika tidak ada
   }
 
   Future<void> logout() async {

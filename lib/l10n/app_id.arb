@@ -6,6 +6,7 @@
   "password": "Kata Sandi",
   "passwordConfirmation": "Konfirmasi Kata Sandi",
   "name": "Nama",
+  "storyDetail": "Detail Cerita",
   "stories": "Cerita",
   "noStories": "Tidak ada cerita",
   "addStory": "Tambah Cerita",
@@ -16,5 +17,8 @@
   "settings": "Pengaturan",
   "language": "Bahasa",
   "darkMode": "Mode Gelap",
-  "logout": "Keluar"
+  "logout": "Keluar",
+  "selectLocation": "Pilih Lokasi",
+  "locationAvailableInPaidVersion": "Fitur lokasi tersedia di versi berbayar",
+  "noLocationSelected": "Silahkan pilih dulu lokasinya"
 }

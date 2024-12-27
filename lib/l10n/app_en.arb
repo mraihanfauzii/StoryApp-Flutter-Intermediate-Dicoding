@@ -6,6 +6,7 @@
   "password": "Password",
   "passwordConfirmation": "Confirm Password",
   "name": "Name",
+  "storyDetail": "Story Detail",
   "stories": "Stories",
   "noStories": "No stories available",
   "addStory": "Add Story",
@@ -16,5 +17,8 @@
   "settings": "Settings",
   "language": "Language",
   "darkMode": "Dark Mode",
-  "logout": "Logout"
+  "logout": "Logout",
+  "selectLocation": "Select Location",
+  "locationAvailableInPaidVersion": "Location available in paid version",
+  "noLocationSelected": "Please select the location first"
 }

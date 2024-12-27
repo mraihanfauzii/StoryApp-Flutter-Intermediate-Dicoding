@@ -3,7 +3,8 @@ import '../models/route_path.dart';
 
 class MyRouteInformationParser extends RouteInformationParser<MyRoutePath> {
   @override
-  Future<MyRoutePath> parseRouteInformation(RouteInformation routeInformation) async {
+  Future<MyRoutePath> parseRouteInformation(
+      RouteInformation routeInformation) async {
     final uri = Uri.parse(routeInformation.location ?? '/');
     if (uri.pathSegments.isEmpty) {
       return MyRoutePath.home();

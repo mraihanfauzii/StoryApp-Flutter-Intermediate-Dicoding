@@ -19,7 +19,8 @@ class StoryItem extends StatelessWidget {
       title: Text(story.name),
       subtitle: Text(story.description),
       onTap: () {
-        final routerDelegate = Router.of(context).routerDelegate as MyRouterDelegate;
+        final routerDelegate =
+            Router.of(context).routerDelegate as MyRouterDelegate;
         routerDelegate.showStoryDetail(story.id);
       },
     );

@@ -1,9 +1,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.dicoding_flutter_intermediate">
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
    <application
         android:label="dicoding_flutter_intermediate"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+       <meta-data
+           android:name="com.google.android.geo.API_KEY"
+           android:value="AIzaSyBSwk6YXd7qGN0HuDogQc_CVRSOT7MjExg" />
         <activity
             android:name=".MainActivity"
             android:exported="true"

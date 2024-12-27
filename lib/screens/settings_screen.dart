@@ -50,7 +50,8 @@ class SettingsScreen extends StatelessWidget {
             title: Text(localizations.logout),
             onTap: () {
               authProvider.logout();
-              final routerDelegate = Router.of(context).routerDelegate as MyRouterDelegate;
+              final routerDelegate =
+                  Router.of(context).routerDelegate as MyRouterDelegate;
               routerDelegate.logout();
             },
           ),

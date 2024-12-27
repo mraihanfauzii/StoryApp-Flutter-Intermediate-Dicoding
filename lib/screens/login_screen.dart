@@ -26,46 +26,45 @@ class _LoginScreenState extends State<LoginScreen> {
     final localizations = AppLocalizations.of(context)!;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(localizations.login),
-      ),
-    body: _isLoading
-      ? const Center(child: CircularProgressIndicator())
-      : Padding(
-          padding: const EdgeInsets.all(16),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              children: [
-                CustomTextField(
-                  label: localizations.email,
-                  onSaved: (value) => _email = value!,
-                  validator: Validators.emailValidator,
-                ),
-                CustomTextField(
-                  label: localizations.password,
-                  controller: _passwordController,
-                  onSaved: (value) => _password = value!,
-                  validator: Validators.passwordValidator,
-                  obscureText: true,
-                ),
-                const SizedBox(height: 20),
-                ElevatedButton(
-                    onPressed: () => _submit(authProvider),
-                    child: Text(localizations.login),
-                ),
-                TextButton(
-                  onPressed: () {
-                    final routerDelegate = Router.of(context).routerDelegate as MyRouterDelegate;
-                    routerDelegate.showRegister();
-                  },
-                  child: Text(localizations.register),
-                ),
-            ],
-          )
+        appBar: AppBar(
+          title: Text(localizations.login),
         ),
-      )
-    );
+        body: _isLoading
+            ? const Center(child: CircularProgressIndicator())
+            : Padding(
+                padding: const EdgeInsets.all(16),
+                child: Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        CustomTextField(
+                          label: localizations.email,
+                          onSaved: (value) => _email = value!,
+                          validator: Validators.emailValidator,
+                        ),
+                        CustomTextField(
+                          label: localizations.password,
+                          controller: _passwordController,
+                          onSaved: (value) => _password = value!,
+                          validator: Validators.passwordValidator,
+                          obscureText: true,
+                        ),
+                        const SizedBox(height: 20),
+                        ElevatedButton(
+                          onPressed: () => _submit(authProvider),
+                          child: Text(localizations.login),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            final routerDelegate = Router.of(context)
+                                .routerDelegate as MyRouterDelegate;
+                            routerDelegate.showRegister();
+                          },
+                          child: Text(localizations.register),
+                        ),
+                      ],
+                    )),
+              ));
   }
 
   void _submit(AuthProvider authProvider) async {
@@ -74,7 +73,8 @@ class _LoginScreenState extends State<LoginScreen> {
       setState(() => _isLoading = true);
       try {
         await authProvider.login(_email, _password);
-        final routerDelegate = Router.of(context).routerDelegate as MyRouterDelegate;
+        final routerDelegate =
+            Router.of(context).routerDelegate as MyRouterDelegate;
         routerDelegate.login();
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
